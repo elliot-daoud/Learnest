@@ -3,7 +3,7 @@ name: Aperçu sur GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ["learnest/**", ".github/workflows/pages.yml"]
+    paths: ["heclearn/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -20,21 +20,21 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: learnest
+        working-directory: heclearn
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: learnest/package-lock.json
+          cache-dependency-path: heclearn/package-lock.json
       - run: npm ci
       - run: node scripts/build-demo.mjs
         env:
           PAGES_BASE_PATH: /Learnest
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: learnest/.demo/out
+          path: heclearn/.demo/out
 
   deploy:
     needs: build

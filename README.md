@@ -4,7 +4,7 @@ Dépôt regroupant mes sites web. Chaque site vit dans son propre dossier, avec 
 
 | Site | Dossier | Description |
 | --- | --- | --- |
-| Learnest | [`learnest/`](learnest/) | Plateforme de révision gratuite pour la 1re année HEC Lausanne (Next.js + Supabase) |
+| HecLearn | [`heclearn/`](heclearn/) | Plateforme de révision gratuite pour la 1re année HEC Lausanne (Next.js + Supabase) |
 
 ## Ajouter un site
 
