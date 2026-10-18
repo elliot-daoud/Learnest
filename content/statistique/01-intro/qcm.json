@@ -1,0 +1,18 @@
+[
+  {
+    "id": "stat-01-q01",
+    "question": "On lance un dé équilibré à six faces. Quelle est la probabilité d'obtenir un nombre pair ?",
+    "choix": ["1/6", "1/3", "1/2", "2/3"],
+    "bonne_reponse": 2,
+    "explication": "Trois résultats favorables (2, 4, 6) sur six possibles : 3/6 = 1/2. 1/6 est la probabilité d'une face précise, 1/3 correspondrait à deux faces favorables, 2/3 à quatre.",
+    "statut": "brouillon"
+  },
+  {
+    "id": "stat-01-q02",
+    "question": "Si P(A) = 0,3, que vaut P(non A) ?",
+    "choix": ["0,3", "0,5", "0,7", "1,3"],
+    "bonne_reponse": 2,
+    "explication": "P(non A) = 1 − P(A) = 0,7. Une probabilité ne peut jamais dépasser 1, donc 1,3 est exclu.",
+    "statut": "brouillon"
+  }
+]

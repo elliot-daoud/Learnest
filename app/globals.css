@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  color-scheme: light dark;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+}
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
