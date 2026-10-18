@@ -97,13 +97,13 @@ export function ScrollTitle({ lines }: { lines: string[] }) {
   return (
     <h1
       ref={ref}
-      className="text-[clamp(2.75rem,14vw,6rem)] font-black uppercase leading-[0.92] tracking-tighter"
+      className="text-center text-[clamp(2.5rem,12vw,5.5rem)] font-bold leading-[1] tracking-tighter"
       style={{ ["--p" as string]: 0 }}
     >
       {lines.map((line, i) => (
         <span
           key={line}
-          className={`block will-change-transform ${i === lines.length - 1 ? "text-emerald-600 dark:text-emerald-400" : ""}`}
+          className={`mx-auto block w-fit will-change-transform ${i === lines.length - 1 ? "bg-linear-to-r from-emerald-500 via-sky-500 to-violet-500 bg-clip-text pb-1 text-transparent" : ""}`}
           style={{ transform: `translateX(calc(var(--p) * ${i % 2 === 0 ? 36 : -36}px))` }}
         >
           {line}

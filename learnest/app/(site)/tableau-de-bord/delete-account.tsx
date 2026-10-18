@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAccount } from "../actions";
+import { deleteAccount } from "@/app/actions";
 
 export default function DeleteAccount() {
   return (

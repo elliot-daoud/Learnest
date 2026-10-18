@@ -16,24 +16,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="fr">
-      <body className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
-        <header className="border-b border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-            <Link href="/" className="text-xl font-bold tracking-tight">
+      <body className="flex min-h-screen flex-col bg-[#fbfbfd] text-zinc-900 antialiased dark:bg-black dark:text-zinc-100">
+        <header className="sticky top-0 z-50 border-b border-zinc-200/70 bg-[#fbfbfd]/80 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-black/70">
+          <div className="mx-auto flex h-12 max-w-5xl items-center justify-between px-4">
+            <Link href="/" className="text-lg font-semibold tracking-tight">
               Learnest
             </Link>
-            <nav className="flex items-center gap-4 text-sm">
+            <nav className="flex items-center gap-5 text-sm">
               {user ? (
                 <>
-                  <Link href="/tableau-de-bord" className="hover:underline">
+                  <Link href="/tableau-de-bord" className="hover:text-emerald-600">
                     Tableau de bord
                   </Link>
                   <form action={signOut}>
-                    <button className="hover:underline">Déconnexion</button>
+                    <button className="hover:text-emerald-600">Déconnexion</button>
                   </form>
                 </>
               ) : (
-                <Link href="/connexion" className="hover:underline">
+                <Link href="/connexion" className="hover:text-emerald-600">
                   Connexion
                 </Link>
               )}
@@ -41,10 +41,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">{children}</main>
+        <main className="flex-1">{children}</main>
 
         <footer className="border-t border-zinc-200 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
-          <div className="mx-auto max-w-3xl space-y-2 px-4 py-6">
+          <div className="mx-auto max-w-5xl space-y-2 px-4 py-6">
             <nav className="flex flex-wrap gap-x-4 gap-y-1">
               <Link href="/a-propos" className="hover:underline">
                 À propos · Notre méthode
