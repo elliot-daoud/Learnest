@@ -4,10 +4,10 @@ import matter from "gray-matter";
 
 const ROOT = path.join(process.cwd(), "content");
 
-// En production, seul le contenu au statut « verifie » existe pour le site.
-// En local (npm run dev), les brouillons restent visibles pour pouvoir les relire.
+// En production, seul le contenu au statut « publie » existe pour le site.
+// En local (npm run dev), les brouillons restent visibles pour pouvoir les relire en local.
 const SHOW_DRAFTS = process.env.NODE_ENV !== "production";
-const isVisible = (statut: string) => statut === "verifie" || SHOW_DRAFTS;
+const isVisible = (statut: string) => statut === "publie" || SHOW_DRAFTS;
 
 export type Matiere = {
   slug: string;
@@ -31,10 +31,7 @@ export type Chapitre = {
   slug: string;
   titre: string;
   contenu: string;
-  genereAvecIa: boolean;
-  verifiePar: string;
-  dateVerification: string; // AAAA-MM-JJ, vide si non vérifié
-  verifie: boolean;
+  publie: boolean;
   questions: Question[];
 };
 
@@ -64,11 +61,6 @@ export function getMatiere(slug: string): Matiere | undefined {
   return SAFE.test(slug) ? getMatieres().find((m) => m.slug === slug) : undefined;
 }
 
-function toIsoDate(value: unknown): string {
-  if (value instanceof Date) return value.toISOString().slice(0, 10);
-  return value ? String(value) : "";
-}
-
 function loadChapitre(matiere: string, slug: string): Chapitre | null {
   if (!SAFE.test(matiere) || !SAFE.test(slug)) return null;
   const dir = path.join(ROOT, matiere, slug);
@@ -87,10 +79,7 @@ function loadChapitre(matiere: string, slug: string): Chapitre | null {
     slug,
     titre: data.titre,
     contenu: content,
-    genereAvecIa: data.genere_avec_ia === true,
-    verifiePar: data.verifie_par ?? "",
-    dateVerification: toIsoDate(data.date_verification),
-    verifie: data.statut === "verifie",
+    publie: data.statut === "publie",
     questions: all
       .filter((q) => isVisible(q.statut))
       .map(({ id, question, choix, bonne_reponse, explication }) => ({
@@ -112,13 +101,4 @@ export function getChapitres(matiere: string): Chapitre[] {
 
 export function getChapitre(matiere: string, slug: string): Chapitre | null {
   return loadChapitre(matiere, slug);
-}
-
-export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("fr-CH", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 }

@@ -6,7 +6,7 @@ import matter from "gray-matter";
 const ROOT = path.join(process.cwd(), "content");
 const errors = [];
 const err = (where, msg) => errors.push(`${where} : ${msg}`);
-const STATUTS = ["brouillon", "verifie"];
+const STATUTS = ["brouillon", "publie"];
 const dirs = (d) =>
   fs.existsSync(d)
     ? fs.readdirSync(d, { withFileTypes: true }).filter((x) => x.isDirectory()).map((x) => x.name)
@@ -43,13 +43,7 @@ for (const matiere of dirs(ROOT)) {
       const { data, content } = matter(fs.readFileSync(fiche, "utf8"));
       const f = `${dir}/fiche.md`;
       if (!filled(data.titre)) err(f, "« titre » manquant");
-      if (!STATUTS.includes(data.statut)) err(f, "« statut » doit être brouillon ou verifie");
-      if (typeof data.genere_avec_ia !== "boolean") err(f, "« genere_avec_ia » doit être true ou false");
-      if (data.statut === "verifie") {
-        if (!filled(data.verifie_par)) err(f, "« verifie_par » obligatoire pour une fiche vérifiée");
-        if (!(data.date_verification instanceof Date) && !filled(String(data.date_verification ?? "")))
-          err(f, "« date_verification » obligatoire pour une fiche vérifiée");
-      }
+      if (!STATUTS.includes(data.statut)) err(f, "« statut » doit être brouillon ou publie");
       if (!content.trim()) err(f, "fiche vide");
     }
 
@@ -79,7 +73,7 @@ for (const matiere of dirs(ROOT)) {
       if (!Array.isArray(q.choix) || q.choix.length !== 4 || !q.choix.every(filled)) err(w, "« choix » doit contenir exactement 4 textes non vides");
       if (!Number.isInteger(q.bonne_reponse) || q.bonne_reponse < 0 || q.bonne_reponse > 3) err(w, "« bonne_reponse » doit être un entier de 0 à 3");
       if (!filled(q.explication)) err(w, "« explication » vide");
-      if (!STATUTS.includes(q.statut)) err(w, "« statut » doit être brouillon ou verifie");
+      if (!STATUTS.includes(q.statut)) err(w, "« statut » doit être brouillon ou publie");
     });
   }
 }

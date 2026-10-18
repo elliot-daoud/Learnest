@@ -1,7 +1,7 @@
 import Link from "next/link";
 import DemoQuiz from "@/components/demo-quiz";
 import { Counter, Reveal, ScrollTitle } from "@/components/scroll-effects";
-import { SponsorSlot, VerifiedBadge } from "@/components/ui";
+import { SponsorSlot } from "@/components/ui";
 import type { Matiere } from "@/lib/content";
 
 const wrap = "mx-auto w-full max-w-5xl px-4";
@@ -19,10 +19,10 @@ const COULEURS = [
 ];
 
 const ETAPES = [
-  { titre: "Un premier jet par IA", texte: "À partir de nos notes de cours, une IA rédige une fiche et des QCM. À ce stade, rien n'est publié.", fond: "from-emerald-500 to-teal-600" },
-  { titre: "Relu par un étudiant", texte: "Un étudiant de 2e ou 3e année qui a eu une très bonne note dans la matière relit, corrige et valide.", fond: "from-sky-500 to-indigo-600" },
-  { titre: "Signé de son nom", texte: "Le badge « Vérifié par » indique qui a relu la fiche et à quelle date. Tu sais ce que tu lis.", fond: "from-violet-500 to-fuchsia-600" },
-  { titre: "Corrigé avec toi", texte: "Une erreur ? Un lien sous chaque question permet de la signaler. On corrige, puis le vérificateur revalide.", fond: "from-orange-400 to-rose-500" },
+  { titre: "Choisis ta matière", texte: "Connecte-toi avec ton e-mail UNIL, puis ouvre la matière que tu prépares. Les chapitres suivent l'ordre du cours.", fond: "from-emerald-500 to-teal-600" },
+  { titre: "Lis la fiche", texte: "Une fiche par chapitre : l'essentiel, les formules, des exemples et les pièges à éviter. Lisible sur téléphone.", fond: "from-sky-500 to-indigo-600" },
+  { titre: "Teste-toi au QCM", texte: "Une question à la fois, correction immédiate et explication. Ton score est enregistré à chaque tentative.", fond: "from-violet-500 to-fuchsia-600" },
+  { titre: "Suis ta progression", texte: "Ton tableau de bord montre les QCM faits et ton meilleur score par chapitre, pour savoir quoi reprendre.", fond: "from-orange-400 to-rose-500" },
 ];
 
 const BLOCS = [
@@ -63,9 +63,9 @@ export default function HomeView({
         <p className="mx-auto mb-5 w-fit rounded-full bg-white/70 px-4 py-1.5 text-sm font-medium ring-1 ring-black/5 backdrop-blur dark:bg-zinc-900/70 dark:ring-white/10">
           Pour la 1re année HEC Lausanne · 100 % gratuit
         </p>
-        <ScrollTitle lines={["Révise avec", "des fiches", "vérifiées."]} />
+        <ScrollTitle lines={["Révise pour", "l'examen,", "gratuitement."]} />
         <p className="mx-auto mt-6 max-w-xl text-xl text-zinc-600 dark:text-zinc-400">
-          Ciblé sur l'examen, relu par des étudiants qui ont réussi la matière.
+          Des fiches claires et des QCM corrigés pour chaque chapitre de ta 1re année.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <Link href={cta.href} className={ctaClass}>
@@ -80,7 +80,7 @@ export default function HomeView({
         <div className="mx-auto mt-14 w-64 rounded-[2.5rem] bg-zinc-900 p-2.5 shadow-2xl shadow-violet-500/30 ring-1 ring-white/10 sm:w-72">
           <div className="space-y-3 rounded-[2rem] bg-white p-4 text-left dark:bg-zinc-950">
             <div className="mx-auto h-1.5 w-16 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-            <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">✓ Vérifié</p>
+            <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Chapitre 1</p>
             <p className="text-lg font-bold leading-tight">Probabilité conditionnelle</p>
             <div className="rounded-2xl bg-violet-100 p-3 text-sm text-violet-950 dark:bg-violet-950 dark:text-violet-100">
               P(A | B) = P(A ∩ B) / P(B)
@@ -100,7 +100,7 @@ export default function HomeView({
       <section aria-label="Nos engagements" className={`${wrap} grid gap-4 md:grid-cols-3`}>
         {[
           { to: 0, suffix: " CHF", titre: "Gratuit", texte: "Pour les étudiants, toujours. Learnest sera financé par des sponsors, jamais par toi.", fond: "from-emerald-500 to-teal-600" },
-          { to: 100, suffix: " %", titre: "Relu avant publication", texte: "Par un étudiant qui a réussi la matière. Son nom est affiché sur la fiche.", fond: "from-sky-500 to-indigo-600" },
+          { to: 4, suffix: "", titre: "Choix par question", texte: "Une question à la fois, avec correction immédiate et explication à chaque réponse.", fond: "from-sky-500 to-indigo-600" },
           { to: 14, suffix: "", titre: "Matières de 1re année", texte: "Une par une, au rythme des examens. Terminologie et notations du cours HEC.", fond: "from-violet-500 to-fuchsia-600" },
         ].map((c) => (
           <Reveal key={c.titre} className={`rounded-3xl bg-linear-to-br ${c.fond} p-6 text-white shadow-lg`}>
@@ -117,7 +117,7 @@ export default function HomeView({
         </Reveal>
         <Reveal className="rounded-3xl bg-pink-100 p-6 text-pink-950 dark:bg-pink-950 dark:text-pink-100">
           <h2 className="text-2xl font-bold tracking-tight">Une erreur ? Signale-la.</h2>
-          <p className="mt-1">Un lien sous chaque question. Les signalements sont traités puis revalidés.</p>
+          <p className="mt-1">Un lien sous chaque question. Chaque signalement est lu et corrigé.</p>
         </Reveal>
         <Reveal className="rounded-3xl bg-zinc-900 p-6 text-white dark:bg-zinc-800">
           <h2 className="text-2xl font-bold tracking-tight">Mode sombre</h2>
@@ -140,14 +140,13 @@ export default function HomeView({
           <Reveal className="space-y-3 rounded-3xl bg-white p-5 shadow-xl ring-1 ring-black/5 dark:bg-zinc-900 dark:ring-white/10">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Statistique · Chapitre 1</p>
             <h3 className="text-2xl font-bold tracking-tight">Probabilité conditionnelle</h3>
-            <VerifiedBadge par="Prénom N." annee="2026" />
             {BLOCS.map((b) => (
               <div key={b.label} className={`rounded-2xl p-3 ${b.style}`}>
                 <p className="text-xs font-bold uppercase tracking-widest opacity-70">{b.label}</p>
                 <p className="mt-0.5">{b.texte}</p>
               </div>
             ))}
-            <p className="text-xs text-zinc-500">Premier jet assisté par IA · Vérifié par Prénom N. · Aperçu</p>
+            <p className="text-xs text-zinc-500">Aperçu</p>
           </Reveal>
           <Reveal>
             <DemoQuiz />
@@ -158,7 +157,7 @@ export default function HomeView({
       {/* Cartes qui s'empilent */}
       <section aria-labelledby="methode" className={wrap}>
         <h2 id="methode" className={`${h2} mb-8 text-center`}>
-          Comment on fabrique <span className={gradText}>une fiche.</span>
+          Comment ça <span className={gradText}>marche.</span>
         </h2>
         <ol>
           {ETAPES.map((e, i) => (

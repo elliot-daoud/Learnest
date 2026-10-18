@@ -6,9 +6,9 @@ import { getUser } from "@/lib/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Learnest — révision gratuite, vérifiée par des étudiants", template: "%s · Learnest" },
+  title: { default: "Learnest — révision gratuite pour la 1re année HEC Lausanne", template: "%s · Learnest" },
   description:
-    "Fiches et QCM corrigés pour la 1re année HEC Lausanne, gratuits, rédigés avec l'aide de l'IA et vérifiés par des étudiants qui ont réussi la matière.",
+    "Fiches et QCM corrigés pour la 1re année HEC Lausanne, gratuits et ciblés sur l'examen.",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="mx-auto max-w-5xl space-y-2 px-4 py-6">
             <nav className="flex flex-wrap gap-x-4 gap-y-1">
               <Link href="/a-propos" className="hover:underline">
-                À propos · Notre méthode
+                À propos
               </Link>
               <Link href="/confidentialite" className="hover:underline">
                 Confidentialité

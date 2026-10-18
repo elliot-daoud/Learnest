@@ -5,8 +5,8 @@ import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { requireUser } from "@/lib/auth";
-import { formatDate, getChapitre, getMatiere } from "@/lib/content";
-import { BackLink, VerifiedBadge } from "@/components/ui";
+import { getChapitre, getMatiere } from "@/lib/content";
+import { BackLink } from "@/components/ui";
 import Quiz from "./quiz";
 import ReportFiche from "./report-fiche";
 
@@ -24,23 +24,14 @@ export default async function PageChapitre({
   const c = m && getChapitre(matiere, chapitre);
   if (!m || !c) notFound();
 
-  const annee = c.dateVerification.slice(0, 4);
-
   return (
     <article className="space-y-6">
       <BackLink href={`/matieres/${m.slug}`}>{m.nom}</BackLink>
 
       <header className="space-y-2">
         <h1 className="text-2xl font-bold">{c.titre}</h1>
-        {c.verifie ? (
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <VerifiedBadge par={c.verifiePar} annee={annee} />
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">
-              Dernière vérification : {formatDate(c.dateVerification)}
-            </span>
-          </p>
-        ) : (
-          <p className="rounded-lg bg-amber-100 p-2 text-sm text-amber-900">Brouillon non vérifié (visible en local uniquement)</p>
+        {!c.publie && (
+          <p className="rounded-lg bg-amber-100 p-2 text-sm text-amber-900">Brouillon (visible en local uniquement)</p>
         )}
       </header>
 
@@ -50,11 +41,7 @@ export default async function PageChapitre({
         </ReactMarkdown>
       </div>
 
-      <footer className="space-y-2 border-t border-zinc-200 pt-4 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
-        <p>
-          {c.genereAvecIa ? "Premier jet assisté par IA · " : ""}
-          {c.verifie ? `Vérifié par ${c.verifiePar} · Dernière vérification ${formatDate(c.dateVerification)}` : "Non vérifié"}
-        </p>
+      <footer className="border-t border-zinc-200 pt-4 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
         <ReportFiche matiere={m.slug} chapitre={c.slug} />
       </footer>
 

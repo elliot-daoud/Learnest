@@ -1,12 +1,9 @@
 ---
 titre: "Introduction aux probabilités"
-statut: brouillon          # brouillon | verifie
-genere_avec_ia: true
-verifie_par: ""
-date_verification:
+statut: brouillon          # brouillon | publie
 ---
 
-> **Exemple de structure.** Ce chapitre est un brouillon d'illustration, non vérifié : il n'apparaît pas en production. Remplace-le par ton propre contenu.
+> **Exemple de structure.** Ce chapitre est un brouillon d'illustration : il n'apparaît pas en production. Remplace-le par ton propre contenu.
 
 ## Expérience, univers, événement
 

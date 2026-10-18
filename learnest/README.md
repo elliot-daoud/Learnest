@@ -16,7 +16,7 @@ Plateforme de révision gratuite pour la 1re année HEC Lausanne. Next.js (App R
 ## Ajouter du contenu
 
 Ajouter un dossier `content/<matiere>/NN-nom-du-chapitre/` avec `fiche.md` et `qcm.json` (voir `content/statistique/01-intro`). Pas de code à modifier.
-Passer `statut: verifie` (fiche et questions) seulement après relecture humaine, en renseignant `verifie_par` et `date_verification`.
+Passer `statut: publie` (fiche et questions) quand le contenu est prêt à être mis en ligne.
 
 - `npm run validate` vérifie tous les fichiers ; il tourne aussi automatiquement avant `npm run build`.
 - En production, tout ce qui est `brouillon` est ignoré. En local (`npm run dev`), les brouillons restent visibles pour la relecture.
