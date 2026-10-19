@@ -12,11 +12,12 @@ export default function LoginForm() {
   const [state, send, sending] = useActionState<LoginState, FormData>(envoyerLien, { status: "idle", message: "" });
   const [code, verify, verifying] = useActionState<CodeState, FormData>(verifierCode, { message: "" });
   const [attente, setAttente] = useState(0);
+  const [dejaCode, setDejaCode] = useState(false);
 
   // Délai avant de pouvoir redemander un e-mail.
   useEffect(() => {
     if (state.status !== "sent") return;
-    setAttente(30);
+    setAttente(60);
     const id = setInterval(() => setAttente((s) => (s <= 1 ? (clearInterval(id), 0) : s - 1)), 1000);
     return () => clearInterval(id);
   }, [state]);
@@ -30,9 +31,17 @@ export default function LoginForm() {
           </div>
           <h2 className="text-xl font-bold">Entre ton code</h2>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Nous avons envoyé un code à <strong className="break-all">{state.email}</strong>. Il arrive en quelques secondes.
+            Nous avons envoyé un code à <strong className="break-all">{state.email}</strong>. Il peut mettre jusqu'à une heure à arriver .
           </p>
         </div>
+
+        <p className="flex gap-3 rounded-2xl bg-amber-100 p-3 text-sm text-amber-950 dark:bg-amber-950 dark:text-amber-100">
+          <span aria-hidden>⚠️</span>
+          <span>
+            <strong>Rien dans ta boîte de réception ?</strong> Regarde dans tes <strong>courriers indésirables</strong> (spam). Le
+            code reste valable 3 heures : tu peux fermer cette page et revenir avec « J'ai déjà reçu un code ».
+          </span>
+        </p>
 
         <form action={verify} className="space-y-3">
           <input type="hidden" name="email" value={state.email} />
@@ -72,7 +81,50 @@ export default function LoginForm() {
             Changer d'adresse
           </a>
         </div>
+        <p className="text-xs text-zinc-500">
+          Attention : un nouveau code annule le précédent. Si le premier est déjà en route, attends-le plutôt que d'en demander un autre.
+        </p>
       </div>
+    );
+  }
+
+  if (dejaCode) {
+    return (
+      <form action={verify} className="space-y-4">
+        <h2 className="text-xl font-bold">Entre ton code</h2>
+        <div className="space-y-2">
+          <label htmlFor="email-code" className="block font-medium">
+            Adresse e-mail UNIL
+          </label>
+          <input id="email-code" name="email" type="email" required autoComplete="email" inputMode="email" placeholder="prenom.nom@unil.ch" className={input} />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="code-deja" className="block font-medium">
+            Code reçu par e-mail
+          </label>
+          <input
+            id="code-deja"
+            name="code"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            pattern="[0-9 ]*"
+            maxLength={9}
+            required
+            className={`${input} text-center text-3xl tracking-[0.3em]`}
+          />
+        </div>
+        <button disabled={verifying} className={primary}>
+          {verifying ? "Vérification…" : "Me connecter"}
+        </button>
+        {code.message && (
+          <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+            {code.message}
+          </p>
+        )}
+        <button type="button" onClick={() => setDejaCode(false)} className="text-sm text-zinc-600 underline dark:text-zinc-400">
+          Retour : recevoir un code
+        </button>
+      </form>
     );
   }
 
@@ -106,6 +158,9 @@ export default function LoginForm() {
           {state.message}
         </p>
       )}
+      <button type="button" onClick={() => setDejaCode(true)} className="w-full text-center text-sm text-brand-700 underline dark:text-brand-300">
+        J'ai déjà reçu un code
+      </button>
     </form>
   );
 }
