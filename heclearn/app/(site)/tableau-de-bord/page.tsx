@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { getChapitres, getMatieres } from "@/lib/content";
+import { getChapitres, getChapitresListe, getMatieres } from "@/lib/content";
 import { GROUPES, modulesDuSemestre } from "@/lib/modules";
 import { getBestScores } from "@/lib/progress";
 import { SponsorSlot, StatusBadge, card } from "@/components/ui";
@@ -34,6 +34,7 @@ export default async function TableauDeBord() {
               <ul className="space-y-2">
                 {mod.matieres.map((m) => {
               const dispo = m.statut === "disponible";
+              const cliquable = getChapitresListe(m.slug).length > 0;
               const chapitres = getChapitres(m.slug).filter((c) => c.questions.length > 0);
               const faits = chapitres.filter((c) => best.has(`${m.slug}/${c.slug}`)).length;
               const contenu = (
@@ -51,7 +52,7 @@ export default async function TableauDeBord() {
               );
               return (
                 <li key={m.slug}>
-                  {dispo ? (
+                  {cliquable ? (
                     <Link href={`/matieres/${m.slug}`} className={`${card} block hover:border-brand-600`}>
                       {contenu}
                     </Link>

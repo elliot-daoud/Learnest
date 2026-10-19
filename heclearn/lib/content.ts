@@ -101,6 +101,21 @@ export function getChapitres(matiere: string): Chapitre[] {
     .filter((c): c is Chapitre => c !== null);
 }
 
+// Liste de tous les chapitres d'une matière (titres seulement). Les chapitres non publiés
+// y figurent avec `ouvert: false` : aucun contenu n'est exposé, seulement le titre.
+export type ChapitreListe = { slug: string; titre: string; ouvert: boolean; nbQuestions: number };
+
+export function getChapitresListe(matiere: string): ChapitreListe[] {
+  if (!SAFE.test(matiere)) return [];
+  return dirs(path.join(ROOT, matiere)).flatMap((slug) => {
+    const fiche = path.join(ROOT, matiere, slug, "fiche.md");
+    if (!fs.existsSync(fiche)) return [];
+    const { data } = matter(fs.readFileSync(fiche, "utf8"));
+    const complet = loadChapitre(matiere, slug); // null tant que non publié (en production)
+    return [{ slug, titre: String(data.titre), ouvert: complet !== null, nbQuestions: complet?.questions.length ?? 0 }];
+  });
+}
+
 export function getChapitre(matiere: string, slug: string): Chapitre | null {
   return loadChapitre(matiere, slug);
 }
