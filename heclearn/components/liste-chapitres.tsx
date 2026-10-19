@@ -4,10 +4,10 @@ import type { ChapitreListe, Matiere } from "@/lib/content";
 import type { Best } from "@/lib/progress";
 
 // Page « choisis un chapitre » d'une matière (partagée par la page connectée et l'aperçu local).
-export default function ListeChapitres({ m, chapitres, best }: { m: Matiere; chapitres: ChapitreListe[]; best: Map<string, Best> }) {
+export default function ListeChapitres({ m, chapitres, best, connecte = true }: { m: Matiere; chapitres: ChapitreListe[]; best: Map<string, Best>; connecte?: boolean }) {
   return (
     <div className="space-y-6">
-      <BackLink href="/tableau-de-bord">Tableau de bord</BackLink>
+      <BackLink href={connecte ? "/tableau-de-bord" : "/"}>{connecte ? "Tableau de bord" : "Accueil"}</BackLink>
       <div>
         <h1 className="text-2xl font-bold">{m.nom}</h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">

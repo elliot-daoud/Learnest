@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { requireUser } from "@/lib/auth";
+import { accesContenu } from "@/lib/auth";
 import { getChapitre, getMatiere } from "@/lib/content";
 import { BackLink } from "@/components/ui";
 import Quiz from "./quiz";
@@ -17,7 +17,7 @@ export default async function PageChapitre({
   params: Promise<{ matiere: string; chapitre: string }>;
   searchParams: Promise<{ q?: string }>;
 }) {
-  await requireUser();
+  const user = await accesContenu();
   const { matiere, chapitre } = await params;
   const { q } = await searchParams;
   const m = getMatiere(matiere);
@@ -42,7 +42,7 @@ export default async function PageChapitre({
       </div>
 
       <footer className="border-t border-zinc-200 pt-4 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
-        <ReportFiche matiere={m.slug} chapitre={c.slug} />
+        <ReportFiche matiere={m.slug} chapitre={c.slug} connecte={!!user} />
       </footer>
 
       {c.questions.length > 0 && (
@@ -50,7 +50,7 @@ export default async function PageChapitre({
           <h2 id="qcm" className="text-xl font-semibold">
             QCM du chapitre
           </h2>
-          <Quiz matiere={m.slug} chapitre={c.slug} questions={c.questions} reviewId={q} />
+          <Quiz matiere={m.slug} chapitre={c.slug} questions={c.questions} reviewId={q} connecte={!!user} />
         </section>
       )}
     </article>

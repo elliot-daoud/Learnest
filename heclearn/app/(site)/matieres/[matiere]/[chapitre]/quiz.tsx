@@ -6,16 +6,16 @@ import ReportForm from "@/components/report-form";
 import { btn, btnGhost, card } from "@/components/ui";
 import type { Question } from "@/lib/content";
 
-type Props = { matiere: string; chapitre: string; questions: Question[]; reviewId?: string };
+type Props = { matiere: string; chapitre: string; questions: Question[]; reviewId?: string; connecte: boolean };
 
-export default function Quiz({ matiere, chapitre, questions, reviewId }: Props) {
+export default function Quiz({ matiere, chapitre, questions, reviewId, connecte }: Props) {
   // Lien venant de l'admin (?q=id) : on montre uniquement cette question, corrigée, sans score.
   const [review, setReview] = useState(() => questions.find((q) => q.id === reviewId));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
-  const [saved, setSaved] = useState<"saving" | "ok" | "error">("saving");
+  const [saved, setSaved] = useState<"saving" | "ok" | "error" | "anonyme">("saving");
 
   function restart() {
     setReview(undefined);
@@ -32,6 +32,10 @@ export default function Quiz({ matiere, chapitre, questions, reviewId }: Props) 
       return;
     }
     setDone(true);
+    if (!connecte) {
+      setSaved("anonyme");
+      return;
+    }
     setSaved("saving");
     const res = await saveAttempt(matiere, chapitre, score, questions.length);
     setSaved(res.ok ? "ok" : "error");
@@ -48,6 +52,15 @@ export default function Quiz({ matiere, chapitre, questions, reviewId }: Props) 
           {saved === "saving" && "Enregistrement…"}
           {saved === "ok" && "Score enregistré."}
           {saved === "error" && "Le score n'a pas pu être enregistré."}
+          {saved === "anonyme" && (
+            <>
+              Ce score n'est pas enregistré.{" "}
+              <a href="/connexion" className="font-medium underline">
+                Connecte-toi
+              </a>{" "}
+              pour suivre ta progression.
+            </>
+          )}
         </p>
         <button onClick={restart} className={btn}>
           Refaire le QCM
@@ -101,7 +114,7 @@ export default function Quiz({ matiere, chapitre, questions, reviewId }: Props) 
             <strong>{answered === q.bonne_reponse ? "Correct. " : "Raté. "}</strong>
             {q.explication}
           </p>
-          <ReportForm key={q.id} matiere={matiere} chapitre={chapitre} questionId={q.id} />
+          <ReportForm key={q.id} matiere={matiere} chapitre={chapitre} questionId={q.id} connecte={connecte} />
           {review ? (
             <button onClick={restart} className={btnGhost}>
               Faire le QCM complet

@@ -5,10 +5,18 @@ import { reportError } from "@/app/actions";
 
 // Lien discret « Signaler une erreur » qui déplie un petit formulaire.
 // `questionId` vaut l'id de la question, ou "fiche".
-export default function ReportForm({ matiere, chapitre, questionId }: { matiere: string; chapitre: string; questionId: string }) {
+export default function ReportForm({ matiere, chapitre, questionId, connecte = true }: { matiere: string; chapitre: string; questionId: string; connecte?: boolean }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  if (!connecte) {
+    return (
+      <a href="/connexion" className="text-sm text-zinc-500 underline hover:text-zinc-800 dark:hover:text-zinc-200">
+        Connecte-toi pour signaler une erreur
+      </a>
+    );
+  }
 
   if (state === "sent") return <p className="text-sm text-emerald-800 dark:text-emerald-300">Merci, ton signalement a bien été envoyé.</p>;
 

@@ -40,10 +40,13 @@ export default function HomeView({
   matieres,
   cta,
   compteSupprime = false,
+  hrefMatiere,
 }: {
   matieres: Matiere[];
   cta: { href: string; label: string };
   compteSupprime?: boolean;
+  // Lien d'une matière en lecture libre ; sinon seules les matières « Disponible » mènent à la connexion.
+  hrefMatiere?: (slug: string) => string | undefined;
 }) {
   let couleur = 0;
 
@@ -148,11 +151,12 @@ export default function HomeView({
                           </span>
                         </>
                       );
+                      const lien = hrefMatiere?.(m.slug) ?? (dispo ? cta.href : undefined);
                       const classes = `flex min-h-36 flex-col justify-between gap-4 rounded-2xl bg-linear-to-br ${fond} p-4 text-white shadow-md`;
                       return (
                         <li key={m.slug}>
-                          {dispo ? (
-                            <Link href={cta.href} className={`${classes} transition hover:scale-[1.02]`}>
+                          {lien ? (
+                            <Link href={lien} className={`${classes} transition hover:scale-[1.02]`}>
                               {carte}
                             </Link>
                           ) : (

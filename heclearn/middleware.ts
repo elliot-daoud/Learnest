@@ -1,7 +1,10 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED = ["/tableau-de-bord", "/matieres", "/admin"];
+import { LOGIN_REQUIRED } from "@/lib/access";
+
+// Avec REQUIRE_LOGIN=false, les matières et chapitres sont consultables sans compte.
+const PROTECTED = LOGIN_REQUIRED ? ["/tableau-de-bord", "/matieres", "/admin"] : ["/tableau-de-bord", "/admin"];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
