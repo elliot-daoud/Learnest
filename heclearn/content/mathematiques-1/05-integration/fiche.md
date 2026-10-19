@@ -1,6 +1,6 @@
 ---
 titre: "Intégration"
-statut: brouillon
+statut: publie
 ---
 
-Chapitre à rédiger.
+Primitives · intégrale définie · par parties · fractions rationnelles · équations différentielles · surplus.

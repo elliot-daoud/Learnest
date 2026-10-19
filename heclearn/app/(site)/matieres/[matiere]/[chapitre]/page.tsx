@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { accesContenu } from "@/lib/auth";
 import { getChapitre, getMatiere } from "@/lib/content";
-import { BackLink } from "@/components/ui";
+import { BackLink, btn, btnGhost } from "@/components/ui";
 import Quiz from "./quiz";
 import ReportFiche from "./report-fiche";
 
@@ -40,6 +40,27 @@ export default async function PageChapitre({
           {c.contenu}
         </ReactMarkdown>
       </div>
+
+      {c.pdf && (
+        <section aria-labelledby="pdf" className="space-y-3">
+          <h2 id="pdf" className="text-xl font-semibold">
+            Fiche de révision (PDF)
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            <a href={`/api/fiche/${m.slug}/${c.slug}`} target="_blank" rel="noopener" className={btn}>
+              Ouvrir le PDF
+            </a>
+            <a href={`/api/fiche/${m.slug}/${c.slug}?telecharger`} className={btnGhost}>
+              Télécharger
+            </a>
+          </div>
+          <iframe
+            src={`/api/fiche/${m.slug}/${c.slug}#view=FitH`}
+            title={`Fiche PDF : ${c.titre}`}
+            className="hidden h-[80vh] w-full rounded-xl border border-zinc-200 md:block dark:border-zinc-800"
+          />
+        </section>
+      )}
 
       <footer className="border-t border-zinc-200 pt-4 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
         <ReportFiche matiere={m.slug} chapitre={c.slug} connecte={!!user} />

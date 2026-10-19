@@ -1,6 +1,6 @@
 ---
-titre: "Fonctions d'une variable"
-statut: brouillon
+titre: "Fonctions d'une variable : offre, demande et taxes"
+statut: publie
 ---
 
-Chapitre à rédiger.
+Demande f(p) · offre g(p) · équilibre · taxes et subventions.

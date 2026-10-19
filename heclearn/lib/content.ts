@@ -34,6 +34,7 @@ export type Chapitre = {
   titre: string;
   contenu: string;
   publie: boolean;
+  pdf: boolean; // un fichier fiche.pdf existe dans le dossier du chapitre
   questions: Question[];
 };
 
@@ -82,6 +83,7 @@ function loadChapitre(matiere: string, slug: string): Chapitre | null {
     titre: data.titre,
     contenu: content,
     publie: data.statut === "publie",
+    pdf: fs.existsSync(path.join(dir, "fiche.pdf")),
     questions: all
       .filter((q) => isVisible(q.statut))
       .map(({ id, question, choix, bonne_reponse, explication }) => ({
@@ -118,4 +120,10 @@ export function getChapitresListe(matiere: string): ChapitreListe[] {
 
 export function getChapitre(matiere: string, slug: string): Chapitre | null {
   return loadChapitre(matiere, slug);
+}
+
+// Chemin du PDF d'un chapitre publié (jamais pour un brouillon en production), sinon null.
+export function getPdfPath(matiere: string, chapitre: string): string | null {
+  const c = loadChapitre(matiere, chapitre);
+  return c?.pdf ? path.join(ROOT, matiere, chapitre, "fiche.pdf") : null;
 }

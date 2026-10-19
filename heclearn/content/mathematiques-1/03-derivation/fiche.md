@@ -1,6 +1,6 @@
 ---
 titre: "Dérivation"
-statut: brouillon
+statut: publie
 ---
 
-Chapitre à rédiger.
+Définition · règles · Taylor · allure locale · extremas · coûts et bénéfice.

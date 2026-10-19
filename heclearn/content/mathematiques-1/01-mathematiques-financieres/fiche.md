@@ -1,6 +1,6 @@
 ---
 titre: "Mathématiques financières"
-statut: brouillon
+statut: publie
 ---
 
-Chapitre à rédiger.
+Valeur temps de l'argent · rentes · prêts · TRI · obligations · taux nominaux.
